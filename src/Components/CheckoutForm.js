@@ -62,6 +62,7 @@ const CheckoutForm = (props) => {
 
   useEffect(() => {
     if (stripe && paymentRequest === null) {
+      console.log("stripe and paymentRequest", stripe, paymentRequest);
       const pr = stripe.paymentRequest({
         country: "US",
         currency: "usd",
@@ -82,14 +83,16 @@ const CheckoutForm = (props) => {
         ],
       });
       // Check the availability of the Payment Request API first.
+      console.log("pr", pr);
       pr.canMakePayment().then((result) => {
+        console.log(result);
         if (result) {
           pr.on("paymentmethod", handlePaymentMethodReceived);
           setPaymentRequest(pr);
         }
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stripe]);
 
   if (paymentRequest) {
