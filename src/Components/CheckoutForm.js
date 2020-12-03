@@ -6,7 +6,6 @@ import {
 
 const CheckoutForm = (props) => {
   const history = props.history;
-  console.log(history);
   const stripe = useStripe();
   const [paymentRequest, setPaymentRequest] = useState(null);
 
@@ -62,7 +61,7 @@ const CheckoutForm = (props) => {
   };
 
   useEffect(() => {
-    if (stripe) {
+    if (stripe && paymentRequest === null) {
       const pr = stripe.paymentRequest({
         country: "US",
         currency: "usd",
@@ -90,6 +89,7 @@ const CheckoutForm = (props) => {
         }
       });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stripe]);
 
   if (paymentRequest) {
